@@ -1,4 +1,5 @@
-import random
+import random, datetime
+
 
 """Classes for melon orders."""
 
@@ -14,10 +15,15 @@ class AbstractMelonOrder():
         """Calculate price, including tax."""
         
         def get_base_price():
-            return random.choice(range(5, 10))
+            base_price = random.choice(range(5, 10))
+            current_time = datetime.datetime.now().time()
+            if datetime.time(hour=0) < current_time < datetime.time(hour=4):
+                base_price += 4 
+                
+            return base_price
         
         base_price = get_base_price()
-        
+
         if self.species == 'christmas melon':
             base_price = base_price * 1.5
 
@@ -26,7 +32,6 @@ class AbstractMelonOrder():
         if self.order_type == "international" and self.qty < 10:
             total += 3
             
-
         return total
 
     def mark_shipped(self):
