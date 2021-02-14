@@ -7,9 +7,14 @@ class AbstractMelonOrder():
     """Abstract class for melon orders."""
 
     def __init__(self, species, qty):
+
         self.species = species.lower()
         self.qty = qty
         self.shipped = False
+       # except TooManyMelonsError 
+
+        if self.qty > 100:
+            raise TooManyMelonsError("No more than 100 melons!")
 
     def get_total(self):
         """Calculate price, including tax."""
@@ -96,5 +101,9 @@ class GovernmentMelonOrder(AbstractMelonOrder):
             self.passed_inspection = True
         elif passed == False:
             self.passed_inspection = False
+
+
+class TooManyMelonsError(ValueError):
+    """Exception raised when creating order with more than 100 melons"""
 
 
